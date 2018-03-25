@@ -30,7 +30,7 @@ module.exports = {
    */
   deploy : {
     production : {
-      user : 'focus',
+      user : 'root',
       host : '120.79.57.240',
       ref  : 'origin/master',
       repo : 'git@github.com:Hubylida/rivermonitor-vue.git',
