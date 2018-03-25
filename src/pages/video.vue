@@ -26,7 +26,7 @@ import 'video.js/dist/video-js.css'
 require('echarts/lib/chart/line')
 require('echarts/lib/component/tooltip')
 require('echarts/lib/component/title')
-import { getVideoInfo, getCurrentDepth } from '../api/api'
+import { getVideoUrl, getCurrentDepth } from '../api/api'
 
 export default {
   components :{
@@ -34,21 +34,7 @@ export default {
   },
   data() {
     return {
-      playerOptions: {
-        height: '440',
-        sources: [{
-          withCredentials: false,
-          type: "application/x-mpegURL",
-          src: "https://logos-channel.scaleengine.net/logos-channel/live/biblescreen-ad-free/playlist.m3u8"
-        }],
-        controlBar: {
-          timeDivider: true,
-          durationDisplay: true
-        },
-        flash: { hls: { withCredentials: false }},
-        html5: { hls: { withCredentials: false }},
-        poster: "https://surmon-china.github.io/vue-quill-editor/static/images/surmon-5.jpg"
-      },
+      playerOptions: {},
       video: {},
       timeList: [],
       depthList: []
@@ -68,6 +54,27 @@ export default {
       player.tech_.hls.xhr.beforeRequest = function(options) {
         return options
       }
+    },
+    getVideoUrl () {
+      let fullPath = this.$route.path
+      let id = fullPath.split('/')[2]
+      getVideoUrl(id).then((res) => {
+        this.playerOptions = {
+          height: '440',
+          sources: [{
+            withCredentials: false,
+            type: "application/x-mpegURL",
+            src: res.data[0].video_url
+          }],
+          controlBar: {
+            timeDivider: true,
+            durationDisplay: true
+          },
+          flash: { hls: { withCredentials: false }},
+          html5: { hls: { withCredentials: false }},
+          poster: "https://surmon-china.github.io/vue-quill-editor/static/images/surmon-5.jpg"
+        }
+      })
     },
     getData() {
       let fullPath = this.$route.path
@@ -105,9 +112,11 @@ export default {
         }]
       })
       myChart.getOption()
-    }
+    },
+
   },
   mounted () {
+    this.getVideoUrl()
     this.getData()
     setTimeout(() => {
       this.drawLine()

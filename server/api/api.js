@@ -44,7 +44,7 @@ router.post('/v1/cameraInfo', (req, res) => {
   }
 })
 
-router.get('/v1/videoInfo', (req, res) => {
+router.get('/v1/videoUrl', (req, res) => {
   let id = req.query.camera_id
   let sql = `select * from cameras where camera_id=${id}`
   connection.query(sql, function (err, result) {
@@ -64,7 +64,6 @@ router.get('/v1/depth', (req, res) => {
       console.error(err.message)
       return
     }
-    console.log(result)
     res.send(result)
   })
 })

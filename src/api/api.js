@@ -21,9 +21,9 @@ export function updateCameraInfo (data) {
   })
 }
 
-export function getVideoInfo (id) {
+export function getVideoUrl (id) {
   return instance.request({
-    url: '/videoInfo',
+    url: '/videoUrl',
     params: {
       camera_id: id
     }
