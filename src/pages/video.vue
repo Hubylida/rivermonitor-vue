@@ -63,7 +63,7 @@ export default {
           height: '440',
           sources: [{
             withCredentials: false,
-            type: "application/x-mpegURL",
+            type: 'application/x-mpegURL',
             src: res.data[0].video_url
           }],
           controlBar: {
@@ -72,11 +72,11 @@ export default {
           },
           flash: { hls: { withCredentials: false }},
           html5: { hls: { withCredentials: false }},
-          poster: "https://surmon-china.github.io/vue-quill-editor/static/images/surmon-5.jpg"
+          poster: 'https://surmon-china.github.io/vue-quill-editor/static/images/surmon-5.jpg'
         }
       })
     },
-    getData() {
+    getData () {
       let fullPath = this.$route.path
       let id = fullPath.split('/')[2]
       let that = this
@@ -94,9 +94,9 @@ export default {
         that.video.time = that.video.time.substring(0, 10)
       })
     },
-    drawLine() {
+    drawLine () {
       let echarts = require('echarts/lib/echarts')
-      let myChart = echarts.init(document.getElementById('myChart'))  
+      let myChart = echarts.init(document.getElementById('myChart'))
       myChart.setOption({
         title: { text: '历史水位' },
         tooltip: {},
@@ -112,8 +112,7 @@ export default {
         }]
       })
       myChart.getOption()
-    },
-
+    }
   },
   mounted () {
     this.getVideoUrl()

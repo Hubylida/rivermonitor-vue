@@ -38,3 +38,13 @@ export function getCurrentDepth (id) {
     }
   })
 }
+
+export function getPhotoHandle (id, pageNum) {
+  return instance.request({
+    url: '/photo',
+    params: {
+      camera_id: id,
+      pageNum: pageNum
+    }
+  })
+}
