@@ -1,4 +1,5 @@
 const fs = require('fs')
+const path = require('path')
 let models = require('../db')
 let express = require('express')
 let router = express.Router()
@@ -34,12 +35,12 @@ let jsonWrite = function(res, d) {
 //   });
 // });
 
-router.get('/v1/', (req, res) => {
+router.get('/', (req, res) => {
   const html = fs.readFileSync(path.resolve(__dirname, '../../dist/index.html'), 'utf-8')
   res.send(html)
 })
 
-router.get('/v1/cameras', (req, res) => {
+router.get('/cameras', (req, res) => {
   let sql = 'select * from cameras'
   connection.query(sql, function (err, d) {
     if (err) {
@@ -50,7 +51,7 @@ router.get('/v1/cameras', (req, res) => {
   })
 })
 
-router.post('/v1/cameraInfo', (req, res) => {
+router.post('/cameraInfo', (req, res) => {
   let newInfo = req.body
   id = parseInt(newInfo.camera_id)
   for (let i in newInfo) {
@@ -64,7 +65,7 @@ router.post('/v1/cameraInfo', (req, res) => {
   }
 })
 
-router.get('/v1/videoUrl', (req, res) => {
+router.get('/videoUrl', (req, res) => {
   let id = req.query.camera_id
   let sql = `select * from cameras where camera_id=${id}`
   connection.query(sql, function (err, result) {
@@ -76,7 +77,7 @@ router.get('/v1/videoUrl', (req, res) => {
   })
 })
 
-router.get('/v1/depth', (req, res) => {
+router.get('/depth', (req, res) => {
   let id = req.query.camera_id
   let sql = `select * from river_depth where camera_id=${id}`
   connection.query(sql, function (err, result) {
@@ -88,7 +89,7 @@ router.get('/v1/depth', (req, res) => {
   })
 })
 
-router.get('/v1/photo', (req, res) => {
+router.get('/photo', (req, res) => {
   let id = parseInt(req.query.camera_id)
   let pageNum = parseInt(req.query.pageNum)
   let sql = `select * from camera_photo where camera_id=${id} order by id limit ${(pageNum - 1) * 10}, 10`
