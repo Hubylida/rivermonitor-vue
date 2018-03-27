@@ -26,7 +26,7 @@ import 'video.js/dist/video-js.css'
 require('echarts/lib/chart/line')
 require('echarts/lib/component/tooltip')
 require('echarts/lib/component/title')
-import { getVideoUrl, getCurrentDepth } from '../api/api'
+import { getVideoUrl, getAllDepth, getCurrentDepth } from '../api/api'
 
 export default {
   components :{
@@ -41,7 +41,7 @@ export default {
     }
   },
   watch: {
-    '$route'(to, from) {
+    '$route' (to, from) {
       this.getData()
       setTimeout(() => {
         this.drawLine()
@@ -82,7 +82,7 @@ export default {
       let that = this
       let lastId = 0
       let [timeList, depthList] = [[], []]
-      getCurrentDepth(id).then((res) => {
+      getAllDepth(id).then((res) => {
         res.data.map((item, index) => {
           timeList.push(item.time.substring(0, 10))
           depthList.push(item.depth)
@@ -115,11 +115,20 @@ export default {
     }
   },
   mounted () {
+    let fullPath = this.$route.path
+    let id = fullPath.split('/')[2]
+    let that = this
     this.getVideoUrl()
     this.getData()
     setTimeout(() => {
       this.drawLine()
     }, 100)
+    setInterval(() => {
+      getCurrentDepth(id).then((res) => {
+        that.video = res.data[0]
+        that.video.time = that.video.time.substring(0, 10)
+      })
+    }, 5000)
   }
 }
 </script>

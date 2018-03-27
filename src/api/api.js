@@ -1,7 +1,7 @@
 import Axios from "axios";
 
 export const instance = Axios.create({
-  baseURL: '/v1',
+  // baseURL: '/v1',
   headers: {
     'Content-Type': 'application/json'
   }
@@ -30,9 +30,18 @@ export function getVideoUrl (id) {
   })
 }
 
-export function getCurrentDepth (id) {
+export function getAllDepth (id) {
   return instance.request({
     url: '/depth',
+    params: {
+      camera_id: id
+    }
+  })
+}
+
+export function getCurrentDepth (id) {
+  return instance.request({
+    url: '/curDepth',
     params: {
       camera_id: id
     }

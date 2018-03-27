@@ -36,7 +36,6 @@ export default {
       that.photos = []
       getPhotoHandle(id, pageNum).then((res) => {
         let data = res.data
-        console.log(data)
         data.map((item) => {
           that.photos.push(item)
         })
