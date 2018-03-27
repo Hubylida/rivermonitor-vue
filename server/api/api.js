@@ -89,11 +89,22 @@ router.get('/depth', (req, res) => {
   })
 })
 
+router.get('/curDepth', (req, res) => {
+  let id = parseInt(req.query.camera_id)
+  let sql =  `select * from river_depth order by ${id} desc limit 1;`
+  connection.query(sql, function (err, result) {
+    if (err) {
+      console.error(err.message)
+      return
+    }
+    res.send(result)
+  })
+})
+
 router.get('/photo', (req, res) => {
   let id = parseInt(req.query.camera_id)
   let pageNum = parseInt(req.query.pageNum)
   let sql = `select * from camera_photo where camera_id=${id} order by id limit ${(pageNum - 1) * 10}, 10`
-  console.log((pageNum - 1) * 10, pageNum * 10)
   connection.query(sql, function (err, result) {
     if (err) {
       console.error(err.message)
