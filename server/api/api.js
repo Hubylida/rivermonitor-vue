@@ -90,14 +90,15 @@ router.get('/v1/depth', (req, res) => {
 
 router.get('/v1/photo', (req, res) => {
   let id = parseInt(req.query.camera_id)
-  // let pageNum = parseInt(req.query.pageNum)
-  // let sql = `select * from camera_photo where camera_id=${id} order by id limit ${(pageNum -1) * 10}, ${pageNum * 10}`
-  let sql =  `select * from camera_photo where camera_id=${id}`
+  let pageNum = parseInt(req.query.pageNum)
+  let sql = `select * from camera_photo where camera_id=${id} order by id limit ${(pageNum - 1) * 10}, 10`
+  console.log((pageNum - 1) * 10, pageNum * 10)
   connection.query(sql, function (err, result) {
     if (err) {
       console.error(err.message)
       return
     }
+    console.log(result.length)
     res.send(result)
   })
 })

@@ -21,37 +21,30 @@ export default {
   name: 'photo',
   data () {
     return {
-      allPhotos: [],
       photos: [],
-      total: 0
-    }
-  },
-  watch: {
-    '$route' (to, from) {
-      this.getPhoto()
+      total: 100
     }
   },
   methods: {
     currentPage (res) {
-      this.photos = this.allPhotos.slice(( res - 1) * 12, res * 12)
+      this.getPhoto(res)
     },
-    getPhoto () {
+    getPhoto (pageNum) {
       let fullPath = this.$route.path
       let id = fullPath.split('/')[2]
       let that = this
-      getPhotoHandle(id).then((res) => {
+      that.photos = []
+      getPhotoHandle(id, pageNum).then((res) => {
         let data = res.data
-        that.allPhotos = []
+        console.log(data)
         data.map((item) => {
-          that.allPhotos.push(item)
+          that.photos.push(item)
         })
-        that.total = that.allPhotos.length
-        that.photos = that.allPhotos.slice(0, 12)
       })
     }
   },
   mounted () {
-    this.getPhoto()
+    this.getPhoto(1)
   }
 }
 </script>
