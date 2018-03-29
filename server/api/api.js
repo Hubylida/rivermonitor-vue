@@ -123,7 +123,7 @@ router.post('/depth', function (req, res) {
   let Sql = 'insert into river_depth (camera_id,name,depth,time) values (?,?,?,now())'
   let addSql = [id,name,depth]
   connection.query(Sql,addSql,function(err,result){
-    if(err){
+    if(err) {
       console.log(err.message)
       return
     }
@@ -132,12 +132,24 @@ router.post('/depth', function (req, res) {
   })
 })
 
+router.get('/allPhoto', function (req, res) {
+  let id = req.query.camera_id
+  let sql = `select * from camera_photo where camera_id=${id}`
+  connection.query(sql, function (err, result) {
+    if (err) {
+      console.log(err.message)
+      return
+    }
+    res.send(result)
+  })
+})
+
 router.post('/picture', function (req, res) {
   req.setEncoding('binary') //设置为binary
   let imgData = ''
   let dirname = '../../static/img/cp_' + req.query.id,
     filename = '../../static/img/cp_' + req.query.id + '/' + req.query.p + '.jpg'
-  let Sql = 'insert into camera_photo (camera_id,photo_src,time,note) values (?,?,now(),?)'
+  let sql = 'insert into camera_photo (camera_id,photo_src,time,note) values (?,?,now(),?)'
   let addSql = [req.query.id,filename,"测试"]
   req.on('data', function (chunk) {
     imgData += chunk
@@ -158,7 +170,7 @@ router.post('/picture', function (req, res) {
       })
     })
   })
-  connection.query(Sql,addSql,function(err,result){
+  connection.query(sql,addSql,function(err,result){
     if(err){
       console.log(err.message)
     }
