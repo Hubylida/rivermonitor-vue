@@ -16,13 +16,13 @@
   </div>
 </template>
 <script>
-import { getPhotoHandle } from '../api/api.js'
+import { getPhotoHandle, getAllPhotos } from '../api/api.js'
 export default {
   name: 'photo',
   data () {
     return {
       photos: [],
-      total: 100
+      total: 0
     }
   },
   methods: {
@@ -40,10 +40,20 @@ export default {
           that.photos.push(item)
         })
       })
+    },
+    getAllPhotoNum () {
+      let fullPath = this.$route.path
+      let id = fullPath.split('/')[2]
+      let that = this
+      getAllPhotos(id).then((res) => {
+        that.total = res.data.length
+        console.log(res.data, res.data.length)
+      })
     }
   },
   mounted () {
     this.getPhoto(1)
+    this.getAllPhotoNum()
   }
 }
 </script>

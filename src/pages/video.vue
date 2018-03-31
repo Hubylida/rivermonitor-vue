@@ -17,6 +17,7 @@
   </div>
 </template>
 <script>
+import Vue from 'vue'
 import videojs from 'video.js'
 window.videojs = videojs
 require('videojs-contrib-hls/dist/videojs-contrib-hls.js')
@@ -36,8 +37,10 @@ export default {
     return {
       playerOptions: {},
       video: {},
+      playerOptions: {},
       timeList: [],
-      depthList: []
+      depthList: [],
+      video_url: ''
     }
   },
   watch: {

@@ -57,3 +57,12 @@ export function getPhotoHandle (id, pageNum) {
     }
   })
 }
+
+export function getAllPhotos (id) {
+  return instance.request({
+    url: '/allPhoto',
+    params: {
+      camera_id: id
+    }
+  })
+}
