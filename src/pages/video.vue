@@ -62,6 +62,7 @@ export default {
       let fullPath = this.$route.path
       let id = fullPath.split('/')[2]
       getVideoUrl(id).then((res) => {
+        console.log(res.data[0].video_url)
         this.playerOptions = {
           height: '440',
           sources: [{
